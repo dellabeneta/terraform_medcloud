@@ -1,0 +1,14 @@
+resource "aws_db_instance" "db_instance" {
+  allocated_storage      = 10
+  db_name                = var.rds_dbname
+  engine                 = "mysql"
+  engine_version         = "5.7"
+  instance_class         = "db.t3.micro"
+  username               = var.rds_username
+  password               = file("~/.ssh/dbpassword")
+  parameter_group_name   = "default.mysql5.7"
+  skip_final_snapshot    = true
+  db_subnet_group_name   = aws_db_subnet_group.db_subnet.id
+  vpc_security_group_ids = [aws_security_group.sg_rds.id]
+  publicly_accessible    = true
+}

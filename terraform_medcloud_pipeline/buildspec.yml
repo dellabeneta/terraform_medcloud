@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - "yum install unzip -y"
+      - "wget https://releases.hashicorp.com/terraform/1.3.3/terraform_1.3.3_linux_amd64.zip"
+      - "unzip terraform_1.3.3_linux_amd64.zip"
+      - "mv terraform /usr/local/bin/"
+
+  pre_build:
+    commands:
+      - terraform init
+
+  build:
+    commands:
+      - terraform apply --auto-approve
+
+  post_build:
+    commands:
+      - echo terraform apply on 'date'

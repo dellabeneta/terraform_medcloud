@@ -1,0 +1,26 @@
+resource "aws_security_group" "sg_rds" {
+  name        = "sg_rds"
+  description = "Grupo de Seguranca para o RDS"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    description     = "Permitir acesso a partir de Security Group das Instancias"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["${aws_security_group.sg_instances.id}"]
+  }
+
+  ingress {
+    description     = "Permitir acesso a partir do Meu Micro"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    cidr_blocks     = ["177.131.162.98/32"]
+
+  }
+
+  tags = {
+    "Name" = "${var.project}_rds_sg"
+  }
+}
